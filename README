@@ -33,6 +33,20 @@ than one copy installed, e.g.:
 $ LO_PATH=/opt/libreoffice5.0/program
 $ export LO_PATH
 
+inject-meta
+-----------
+
+This program is more of a worked example than a usable tool.
+
+It converts a textual document to `.odt` format, adjusts the metadata fields in
+the `.odt` file as specified by the command line options, then converts back to
+the requested output format.  This allows you to add or modify metadata fields
+in a document automatically, but the double conversion may result in additional
+unwanted changes to the document.
+
+If you're packaging lloconv you probably don't want to install inject-meta via
+the package (at least not in `/usr/bin` or equivalent).
+
 Building
 --------
 
