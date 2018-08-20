@@ -1,6 +1,6 @@
 /* lloconv.cc - Convert a document using LibreOfficeKit
  *
- * Copyright (C) 2014,2015,2016 Olly Betts
+ * Copyright (C) 2014,2015,2016,2018 Olly Betts
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -8,35 +8,33 @@
  */
 
 #include <cstdlib>
+#include <cstring>
 #include <iostream>
 
 #include <sysexits.h>
 
 #include "convert.h"
 
+#define PACKAGE_VERSION "6.1.0"
+
 using namespace std;
 
 static void
-usage()
+usage(ostream& os)
 {
-    cerr << "Usage: " << program << " [-u] [-f OUTPUT_FORMAT] [-o OPTIONS] INPUT_FILE OUTPUT_FILE\n\n";
-    cerr << "  -u  INPUT_FILE is a URL\n";
-    cerr << "Specifying options requires LibreOffice >= 4.3.0rc1\n\n";
-    cerr << "Known values for OUTPUT_FORMAT include:\n";
-    cerr << "  For text documents: doc docx fodt html odt ott pdf txt xhtml\n\n";
-    cerr << "Known OPTIONS include: SkipImages\n";
-    cerr << flush;
+    os << "Usage: " << program << " [-u] [-f OUTPUT_FORMAT] [-o OPTIONS] INPUT_FILE OUTPUT_FILE\n\n";
+    os << "  -u  INPUT_FILE is a URL\n";
+    os << "Specifying options requires LibreOffice >= 4.3.0rc1\n\n";
+    os << "Known values for OUTPUT_FORMAT include:\n";
+    os << "  For text documents: doc docx fodt html odt ott pdf txt xhtml\n\n";
+    os << "Known OPTIONS include: SkipImages\n";
+    os << flush;
 }
 
 int
 main(int argc, char **argv)
 {
     program = argv[0];
-
-    if (argc < 3) {
-	usage();
-	_Exit(EX_USAGE);
-    }
 
     const char * format = NULL;
     const char * options = NULL;
@@ -52,6 +50,14 @@ main(int argc, char **argv)
 		    ++argv;
 		    --argc;
 		    goto last_option;
+		}
+		if (strcmp(argv[0] + 2, "help") == 0) {
+		    usage(cout);
+		    exit(0);
+		}
+		if (strcmp(argv[0] + 2, "version") == 0) {
+		    cout << "lloconv - lloconv " PACKAGE_VERSION << endl;
+		    exit(0);
 		}
 		break;
 	    case 'f':
@@ -93,7 +99,7 @@ main(int argc, char **argv)
 last_option:
 
     if (argc != 2) {
-	usage();
+	usage(cerr);
 	_Exit(EX_USAGE);
     }
 

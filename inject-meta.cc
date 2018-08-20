@@ -2,7 +2,7 @@
  *
  * Provides an example of how to perform multiple conversions.
  *
- * Copyright (C) 2014,2015 Olly Betts
+ * Copyright (C) 2014,2015,2018 Olly Betts
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -23,6 +23,8 @@
 
 #include "convert.h"
 
+#define PACKAGE_VERSION "6.1.0"
+
 using namespace std;
 
 // Create a temporary directory called ${TMPDIR-/tmp} + this with XXXXXX
@@ -30,10 +32,10 @@ using namespace std;
 #define TEMP_DIR_TEMPLATE "/inject-meta-XXXXXX"
 
 static void
-usage()
+usage(ostream& os)
 {
-    cerr << "Usage: " << program << " -mNAME=VALUE[...] INPUT_FILE OUTPUT_FILE\n\n";
-    cerr << flush;
+    os << "Usage: " << program << " -mNAME=VALUE[...] INPUT_FILE OUTPUT_FILE\n\n";
+    os << flush;
 }
 
 static void
@@ -64,30 +66,35 @@ main(int argc, char **argv)
 {
     program = argv[0];
 
-    if (argc < 3) {
-	usage();
-	_Exit(EX_USAGE);
-    }
-
     map<string, const char *> meta;
 
     // FIXME: Use getopt() or something.
-    while (argv[1][0] == '-') {
-	switch (argv[1][1]) {
+    ++argv;
+    --argc;
+    while (argv[0] && argv[0][0] == '-') {
+	switch (argv[0][1]) {
 	    case '-':
-		if (argv[1][2] == '\0') {
+		if (argv[0][2] == '\0') {
 		    // End of options.
 		    ++argv;
 		    --argc;
 		    goto last_option;
 		}
+		if (strcmp(argv[0] + 2, "help") == 0) {
+		    usage(cout);
+		    exit(0);
+		}
+		if (strcmp(argv[0] + 2, "version") == 0) {
+		    cout << "inject-meta - lloconv " PACKAGE_VERSION << endl;
+		    exit(0);
+		}
 		break;
 	    case 'm': {
-		const char * tag = argv[1] + 2;
+		const char * tag = argv[0] + 2;
 		const char * eq = strchr(tag, '=');
 		if (!eq) {
-		    cerr << "Option '" << argv[1] << "' missing '='\n\n";
-		    usage();
+		    cerr << "Option '" << argv[0] << "' missing '='\n\n";
+		    usage(cerr);
 		    _Exit(EX_USAGE);
 		}
 		meta[string(tag, eq - tag)] = eq + 1;
@@ -97,19 +104,19 @@ main(int argc, char **argv)
 	    }
 	}
 
-	cerr << "Option '" << argv[1] << "' unknown\n\n";
-	argc = 0;
+	cerr << "Option '" << argv[0] << "' unknown\n\n";
+	argc = -1;
 	break;
     }
 last_option:
 
-    if (argc != 3) {
-	usage();
+    if (argc != 2) {
+	usage(cerr);
 	_Exit(EX_USAGE);
     }
 
-    const char * input = argv[1];
-    const char * output = argv[2];
+    const char * input = argv[0];
+    const char * output = argv[1];
 
     void * handle = convert_init();
 
