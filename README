@@ -33,6 +33,27 @@ than one copy installed, e.g.:
 $ LO_PATH=/opt/libreoffice5.0/program
 $ export LO_PATH
 
+Server
+------
+
+The time to initialise LibreOfficeKit can be significant if you have a lot of
+files to process, so lloconv supports a "server" mode where a background
+process provides a way to reuse a single LibreOfficeKit instance to convert
+multiple documents.
+
+This works via a Unix domain socket.  Bear in mind that if another user on
+the same machine can write to the domain socket you use then they can probably
+read your documents by using lloconv, so it's a good idea to create the socket
+in its own directory which only you can read (`chmod 700 DIRECTORY`).
+
+If you specify `-s SOCKETPATH` and a document path and a server isn't running
+for SOCKETPATH then one will be started in the background.  You can also start
+a server explicitly by using `lloconv -l -s SOCKETPATH` first without
+specifying a document.
+
+Currently you can't use -u and -s SOCKETPATH together, which means when using
+a server you can convert files from paths, but not files from arbitrary URLs.
+
 inject-meta
 -----------
 
