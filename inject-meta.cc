@@ -219,6 +219,7 @@ next:;
 	rc = convert(handle, false, odt.c_str(), output);
 	unlink(odt.c_str());
     }
+    rmdir(tmpdir.c_str());
     convert_cleanup(handle);
 
     // Avoid segfault from LibreOffice by terminating swiftly.
