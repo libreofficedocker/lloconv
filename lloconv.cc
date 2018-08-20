@@ -7,6 +7,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <config.h>
+
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
@@ -22,8 +24,6 @@
 #include <unistd.h>
 
 #include "convert.h"
-
-#define PACKAGE_VERSION "6.1.0"
 
 using namespace std;
 
@@ -268,7 +268,7 @@ main(int argc, char **argv)
 		    exit(0);
 		}
 		if (strcmp(argv[0] + 2, "version") == 0) {
-		    cout << "lloconv - lloconv " PACKAGE_VERSION << endl;
+		    cout << "lloconv - " PACKAGE_STRING << endl;
 		    exit(0);
 		}
 		break;
