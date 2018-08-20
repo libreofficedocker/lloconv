@@ -1,7 +1,7 @@
 lloconv
 =======
 
-This is a document convertor which uses LibreOfficeKit for all the heavy
+This is a document converter which uses LibreOfficeKit for all the heavy
 lifting.  LibreOfficeKit was formerly known as liblibreoffice, hence the name
 "lloconv".
 
