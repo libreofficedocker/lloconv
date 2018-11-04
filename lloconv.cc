@@ -32,8 +32,7 @@ usage(ostream& os)
 {
     os << "Usage: " << program << " [-u|-s SOCKET_PATH] [-f OUTPUT_FORMAT] [-o OPTIONS] INPUT_FILE OUTPUT_FILE\n";
     os << "       " << program << " -s SOCKET_PATH -l\n\n";
-    os << "  -u  INPUT_FILE is a URL\n";
-    os << "Specifying options requires LibreOffice >= 4.3.0rc1\n\n";
+    os << "  -u  INPUT_FILE is a URL\n\n";
     os << "Known values for OUTPUT_FORMAT include:\n";
     os << "  For text documents: doc docx fodt html odt ott pdf txt xhtml\n\n";
     os << "Known OPTIONS include: SkipImages\n";
