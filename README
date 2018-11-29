@@ -106,5 +106,8 @@ If you find a file which LibreOffice can convert but lloconv can't, please
 report that at https://gitlab.com/ojwb/lloconv, ideally with an example file
 which reproduces the problem.
 
+Related Software
+----------------
+
 If you're looked for a Python API to LibreOfficeKit, take a look at pylokit:
 https://github.com/xrmx/pylokit
