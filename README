@@ -51,8 +51,9 @@ for SOCKETPATH then one will be started in the background.  You can also start
 a server explicitly by using `lloconv -l -s SOCKETPATH` first without
 specifying a document.
 
-Currently you can't use -u and -s SOCKETPATH together, which means when using
-a server you can convert files from paths, but not files from arbitrary URLs.
+Currently you can't use `-u` and `-s SOCKETPATH` together, which means when
+using a server you can convert files from paths, but not files from arbitrary
+URLs.
 
 inject-meta
 -----------
@@ -64,9 +65,9 @@ metadata fields in a document automatically, but the double conversion may
 result in additional unwanted changes to the document.
 
 It's more of a worked example than a usable tool, and isn't built by default.
-Run configure with option --enable-extra-programs to enable it.
+Run configure with option `--enable-extra-programs` to enable it.
 
-If you're packaging lloconv you probably don't want to install inject-meta via
+If you're packaging lloconv you probably don't want to install `inject-meta` via
 the package (at least not in `/usr/bin` or equivalent).
 
 Building
@@ -89,8 +90,8 @@ specify LO_INCLUDE_PATH like so:
 
 ./configure LO_INCLUDE_PATH="$HOME/git/libreoffice/master/include"
 
-This allows building on a system where $HOME/git/libreoffice/master is a
-git checkout and /usr/include has no LOK headers.
+This allows building on a system where `$HOME/git/libreoffice/master` is a
+git checkout and `/usr/include` has no LOK headers.
 
 Bugs
 ----
