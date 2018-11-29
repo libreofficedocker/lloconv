@@ -17,7 +17,7 @@ AC_SUBST([AM_CXXFLAGS])
 dnl Allow easy building against uninstalled LibreOffice.
 AC_ARG_VAR([LO_INCLUDE_PATH], [Path to directory containing LibreOffice headers])
 if test x"$LO_INCLUDE_PATH" != x ; then
-  AM_CPPFLAGS="-I'$LO_INCLUIDE_PATH'"
+  AM_CPPFLAGS="-I'$LO_INCLUDE_PATH'"
 fi
 AC_SUBST([AM_CPPFLAGS])
 
