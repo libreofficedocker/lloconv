@@ -96,6 +96,16 @@ git checkout and `/usr/include` has no LOK headers.
 Bugs
 ----
 
+Known Bugs
+~~~~~~~~~~
+
+LibreOffice seems to be unable to handle a file whose filename isn't valid
+in the current locale's encoding (for example, a filename which isn't
+valid UTF-8 on a typical modern Linux machine).
+
+Other Issues
+~~~~~~~~~~~~
+
 Failure to convert a particular file is much more likely an issue with
 LibreOffice or the file itself rather than a lloconv bug.  If you find a file
 which lloconv can't convert, before reporting a bug against lloconv please
