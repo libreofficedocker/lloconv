@@ -21,12 +21,6 @@ if test x"$LO_INCLUDE_PATH" != x ; then
 fi
 AC_SUBST([AM_CPPFLAGS])
 
-dnl Enable extra warning flags for building with GCC.
-if test yes = "$GCC"; then
-  AM_CXXFLAGS="$AM_CXXFLAGS -Wall -W -Wshadow -Wpointer-arith -Wcast-align"
-fi
-AC_SUBST([AM_CXXFLAGS])
-
 AC_ARG_ENABLE([extra-programs],
 [AS_HELP_STRING([--enable-extra-programs],
 		[enable experimental extra programs])],
