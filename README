@@ -24,12 +24,11 @@ opening email attachments.
 
 The code checks for LibreOffice installed in /usr/lib/libreoffice/program
 or /usr/lib64/libreoffice/program (which is where the Debian and Fedora
-packages install to) and if it's not there, tries
-/opt/libreoffice<major>.<minor>/program for known <major>.<minor> versions
-(which is where the .debs from libreoffice.org install to).  You can override
-this by setting environmental variable LO_PATH, either to handle an install in
-another location, or to force a particular install to be used if you have more
-than one copy installed, e.g.:
+packages install to) and if it's not there, looks for /opt/libreoffice*/program
+(which is where the .debs from libreoffice.org install to), using the highest
+version if multiple are found.  You can override this by setting environmental
+variable LO_PATH, either to handle an install in another location, or to force
+a particular install to be used if you have more than one copy installed, e.g.:
 
 $ LO_PATH=/opt/libreoffice5.0/program
 $ export LO_PATH

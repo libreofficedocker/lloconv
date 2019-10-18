@@ -17,6 +17,7 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <dirent.h>
 #include <unistd.h>
 #include <sysexits.h>
 
@@ -33,9 +34,6 @@ using namespace lok;
 // Install location for Fedora packages on 64-bit architectures:
 #define LO_PATH_FEDORA64 "/usr/lib64/libreoffice/program"
 
-// Install location for .deb files from libreoffice.org:
-#define LO_PATH_LIBREOFFICEORG(V) "/opt/libreoffice"#V"/program"
-
 const char * program = "<program>";
 
 // Find a LibreOffice installation to use.
@@ -43,31 +41,55 @@ static const char *
 get_lo_path()
 {
     const char * lo_path = getenv("LO_PATH");
-    if (!lo_path) {
-	struct stat sb;
-#define CHECK_DIR(P) if (!lo_path && stat(P"/versionrc", &sb) == 0 && S_ISREG(sb.st_mode)) lo_path = P
-	CHECK_DIR(LO_PATH_DEBIAN);
-	CHECK_DIR(LO_PATH_FEDORA64);
-	CHECK_DIR(LO_PATH_LIBREOFFICEORG(6.2));
-	CHECK_DIR(LO_PATH_LIBREOFFICEORG(6.1));
-	CHECK_DIR(LO_PATH_LIBREOFFICEORG(6.0));
-	CHECK_DIR(LO_PATH_LIBREOFFICEORG(5.4));
-	CHECK_DIR(LO_PATH_LIBREOFFICEORG(5.3));
-	CHECK_DIR(LO_PATH_LIBREOFFICEORG(5.2));
-	CHECK_DIR(LO_PATH_LIBREOFFICEORG(5.1));
-	CHECK_DIR(LO_PATH_LIBREOFFICEORG(5.0));
-	CHECK_DIR(LO_PATH_LIBREOFFICEORG(4.4));
-	CHECK_DIR(LO_PATH_LIBREOFFICEORG(4.3));
+    if (lo_path) return lo_path;
 
-	if (!lo_path) {
-	    cerr << program << ": LibreOffice install not found\n"
-		"Set LO_PATH in the environment to the 'program' directory - e.g.:\n"
-		"LO_PATH=/opt/libreoffice/program\n"
-		"export LO_PATH" << endl;
-	    _Exit(1);
+    struct stat sb;
+#define CHECK_DIR(P) if (stat(P"/versionrc", &sb) == 0 && S_ISREG(sb.st_mode)) return P
+    CHECK_DIR(LO_PATH_DEBIAN);
+    CHECK_DIR(LO_PATH_FEDORA64);
+
+    // Check install locations for .deb files from libreoffice.org,
+    // e.g. /opt/libreoffice6.3/program
+    DIR* opt = opendir("/opt");
+    if (opt) {
+	static string best_rc;
+	struct dirent* d; 
+	while ((d = readdir(opt))) { 
+#ifdef DT_DIR
+	    // Opportunistically skip non-directories if we can spot them
+	    // just by looking at d_type.
+	    if (d->d_type != DT_DIR && d->d_type != DT_UNKNOWN) {
+		continue;
+	    }
+#endif
+	    if (memcmp(d->d_name, "libreoffice", strlen("libreoffice")) != 0) {
+		continue;
+	    }
+
+	    string rc = "/opt/";
+	    rc += d->d_name;
+	    rc += "/program";
+	    if (stat((rc + "/versionrc").c_str(), &sb) != 0 || !S_ISREG(sb.st_mode)) {
+		continue;
+	    }
+
+	    // Use string compare for now - FIXME: this will need reworking
+	    // once Libreoffice hits major version 10.
+	    if (rc > best_rc && rc >= "/opt/libreoffice4.3/program") {
+		best_rc = std::move(rc);
+	    }
+	}
+	closedir(opt);
+	if (!best_rc.empty()) {
+	    return best_rc.c_str();
 	}
     }
-    return lo_path;
+
+    cerr << program << ": LibreOffice install not found\n"
+	"Set LO_PATH in the environment to the 'program' directory - e.g.:\n"
+	"LO_PATH=/opt/libreoffice/program\n"
+	"export LO_PATH" << endl;
+    _Exit(1);
 }
 
 void *
