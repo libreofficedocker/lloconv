@@ -1,6 +1,6 @@
 /* convert.cc - Convert documents using LibreOfficeKit
  *
- * Copyright (C) 2014,2015,2016,2018 Olly Betts
+ * Copyright (C) 2014,2015,2016,2018,2019 Olly Betts
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -27,8 +27,11 @@
 using namespace std;
 using namespace lok;
 
-// Install location for Debian packages:
+// Install location for Debian packages (also Fedora on 32-bit architectures):
 #define LO_PATH_DEBIAN "/usr/lib/libreoffice/program"
+
+// Install location for Fedora packages on 64-bit architectures:
+#define LO_PATH_FEDORA64 "/usr/lib64/libreoffice/program"
 
 // Install location for .deb files from libreoffice.org:
 #define LO_PATH_LIBREOFFICEORG(V) "/opt/libreoffice"#V"/program"
@@ -44,6 +47,7 @@ get_lo_path()
 	struct stat sb;
 #define CHECK_DIR(P) if (!lo_path && stat(P"/versionrc", &sb) == 0 && S_ISREG(sb.st_mode)) lo_path = P
 	CHECK_DIR(LO_PATH_DEBIAN);
+	CHECK_DIR(LO_PATH_FEDORA64);
 	CHECK_DIR(LO_PATH_LIBREOFFICEORG(6.2));
 	CHECK_DIR(LO_PATH_LIBREOFFICEORG(6.1));
 	CHECK_DIR(LO_PATH_LIBREOFFICEORG(6.0));

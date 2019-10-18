@@ -23,7 +23,8 @@ the content of, but fetching arbitrary documents is equivalent to automatically
 opening email attachments.
 
 The code checks for LibreOffice installed in /usr/lib/libreoffice/program
-(which is where the Debian packages install to) and if it's not there, tries
+or /usr/lib64/libreoffice/program (which is where the Debian and Fedora
+packages install to) and if it's not there, tries
 /opt/libreoffice<major>.<minor>/program for known <major>.<minor> versions
 (which is where the .debs from libreoffice.org install to).  You can override
 this by setting environmental variable LO_PATH, either to handle an install in
