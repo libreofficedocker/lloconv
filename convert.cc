@@ -53,8 +53,8 @@ get_lo_path()
     DIR* opt = opendir("/opt");
     if (opt) {
 	static string best_rc;
-	struct dirent* d; 
-	while ((d = readdir(opt))) { 
+	struct dirent* d;
+	while ((d = readdir(opt))) {
 #ifdef DT_DIR
 	    // Opportunistically skip non-directories if we can spot them
 	    // just by looking at d_type.
