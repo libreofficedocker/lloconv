@@ -35,7 +35,12 @@ usage(ostream& os)
     os << "  -u  INPUT_FILE is a URL\n\n";
     os << "Known values for OUTPUT_FORMAT include:\n";
     os << "  For text documents: doc docx fodt html odt ott pdf txt xhtml\n\n";
-    os << "Known OPTIONS include: SkipImages\n";
+    os << "Known OPTIONS include:\n";
+    os << "  EmbedImages - embed image data in HTML using <img src=\"data:...\">\n";
+    os << "  SkipImages - don't include images\n";
+    os << "  SkipHeaderFooter - don't include the header and footer\n";
+    os << "  XHTML - use XHTML doctype (different to -f xhtml)\n";
+    os << "  xhtmlns=foo - XHTML with HTML tags prefixed by foo:\n";
     os << flush;
 }
 
