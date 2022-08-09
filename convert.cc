@@ -46,7 +46,9 @@ get_lo_path()
     struct stat sb;
 #define CHECK_DIR(P) if (stat(P"/versionrc", &sb) == 0 && S_ISREG(sb.st_mode)) return P
     CHECK_DIR(LO_PATH_DEBIAN);
-    CHECK_DIR(LO_PATH_FEDORA64);
+    if (sizeof(void*) > 4) {
+	CHECK_DIR(LO_PATH_FEDORA64);
+    }
 
     // Check install locations for .deb files from libreoffice.org,
     // e.g. /opt/libreoffice6.3/program
