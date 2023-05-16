@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 
-AC_INIT([lloconv], [6.1.0], [https://gitlab.com/ojwb/lloconv])
+AC_INIT([lloconv], [6.1.1], [https://gitlab.com/ojwb/lloconv])
 AM_INIT_AUTOMAKE([foreign -Wall -Wportability -Werror])
 
 AC_CONFIG_HEADERS([config.h])

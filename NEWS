@@ -1,0 +1,29 @@
+lloconv 6.1.1 (2022-09-27)
+
+* Document more LibreOffice options I've discovered in --help.
+
+* README: Note that LibreOffice requires filenames to have a valid encoding in
+  the current locale.
+
+* README: Improve markup.
+
+* configure: Fix handling of `./configure LO_INCLUDE_PATH=...` which was
+  previously ignored due to a typo.
+
+* Drop note from `--help` output about LibreOffice options needing 4.3.0rc1
+  since we dropped support for LibreOffice < 4.3.0 a couple of years ago.
+
+* The check for upstream builds of LibreOffice is now dynamic and no longer
+  hard-codes a list of versions to check for (which required updating with each
+  new release).
+
+* Automatically find packaged LibreOffice on 64bit Fedora
+
+* Automatically find LibreOffice on macOS.  Reportedly initialising
+  LibreOfficeKit hangs but at least we'll be ready once that is fixed
+  by the LibreOffice developers. See
+  https://gitlab.com/ojwb/lloconv/-/issues/11.
+
+lloconv 6.1.0 (2018-08-20)
+
+* First actual numbered release.
