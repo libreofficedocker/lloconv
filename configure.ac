@@ -32,5 +32,7 @@ AC_ARG_ENABLE([extra-programs],
     *) AC_MSG_ERROR([bad value ${enableval} for --enable-extra-programs]) ;;
   esac])
 
+AC_SEARCH_LIBS([dlopen], [dl])
+
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
