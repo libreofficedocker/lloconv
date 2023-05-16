@@ -112,7 +112,7 @@ get_lo_path()
     cerr << program << ": LibreOffice install not found\n"
 	"Set LO_PATH in the environment to the 'program' directory - e.g.:\n"
 	"LO_PATH=/opt/libreoffice/program\n"
-	"export LO_PATH" << endl;
+	"export LO_PATH\n";
     _Exit(1);
 }
 
@@ -124,13 +124,13 @@ convert_init()
 	const char * lo_path = get_lo_path();
 	llo = lok_cpp_init(lo_path);
 	if (!llo) {
-	    cerr << program << ": Failed to initialise LibreOfficeKit" << endl;
+	    cerr << program << ": Failed to initialise LibreOfficeKit\n";
 	    return NULL;
 	}
 	return static_cast<void*>(llo);
     } catch (const exception & e) {
 	delete llo;
-	cerr << program << ": LibreOfficeKit threw exception (" << e.what() << ")" << endl;
+	cerr << program << ": LibreOfficeKit threw exception (" << e.what() << ")\n";
 	return NULL;
     }
 }
@@ -159,7 +159,7 @@ try {
     Document * lodoc = llo->documentLoad(input_url.c_str(), options);
     if (!lodoc) {
 	const char * errmsg = llo->getError();
-	cerr << program << ": LibreOfficeKit failed to load document (" << errmsg << ")" << endl;
+	cerr << program << ": LibreOfficeKit failed to load document (" << errmsg << ")\n";
 	return 1;
     }
 
@@ -167,7 +167,7 @@ try {
     url_encode_path(output_url, output);
     if (!lodoc->saveAs(output_url.c_str(), format, options)) {
 	const char * errmsg = llo->getError();
-	cerr << program << ": LibreOfficeKit failed to export (" << errmsg << ")" << endl;
+	cerr << program << ": LibreOfficeKit failed to export (" << errmsg << ")\n";
 	delete lodoc;
 	return 1;
     }
@@ -176,6 +176,6 @@ try {
 
     return 0;
 } catch (const exception & e) {
-    cerr << program << ": LibreOfficeKit threw exception (" << e.what() << ")" << endl;
+    cerr << program << ": LibreOfficeKit threw exception (" << e.what() << ")\n";
     return 1;
 }

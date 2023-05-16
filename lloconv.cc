@@ -232,7 +232,7 @@ try {
     }
     convert_cleanup(handle);
 } catch (const exception & e) {
-    cerr << program << ": LibreOffice threw exception (" << e.what() << ")" << endl;
+    cerr << program << ": LibreOffice threw exception (" << e.what() << ")\n";
     return 1;
 }
 
@@ -272,7 +272,7 @@ main(int argc, char **argv)
 		    exit(0);
 		}
 		if (strcmp(argv[0] + 2, "version") == 0) {
-		    cout << "lloconv - " PACKAGE_STRING << endl;
+		    cout << "lloconv - " PACKAGE_STRING "\n";
 		    exit(0);
 		}
 		break;

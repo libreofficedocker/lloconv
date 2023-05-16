@@ -85,7 +85,7 @@ main(int argc, char **argv)
 		    exit(0);
 		}
 		if (strcmp(argv[0] + 2, "version") == 0) {
-		    cout << "inject-meta - " PACKAGE_STRING << endl;
+		    cout << "inject-meta - " PACKAGE_STRING "\n";
 		    exit(0);
 		}
 		break;
@@ -128,7 +128,7 @@ last_option:
     strcat(dir_template, TEMP_DIR_TEMPLATE);
     p = mkdtemp(dir_template);
     if (!p) {
-	cerr << program << ": mkdtemp() failed (" << strerror(errno) << ")" << endl;
+	cerr << program << ": mkdtemp() failed (" << strerror(errno) << ")\n";
 	_Exit(1);
     }
     string tmpdir(p);
@@ -139,22 +139,22 @@ last_option:
     if (!rc) {
 	int cwd_fd = open(".", O_RDONLY);
 	if (cwd_fd < 0) {
-	    cerr << program << ": open(\".\") failed (" << strerror(errno) << ")" << endl;
+	    cerr << program << ": open(\".\") failed (" << strerror(errno) << ")\n";
 	    _Exit(1);
 	}
 	if (chdir(tmpdir.c_str()) < 0) {
-	    cerr << program << ": chdir() failed (" << strerror(errno) << ")" << endl;
+	    cerr << program << ": chdir() failed (" << strerror(errno) << ")\n";
 	    _Exit(1);
 	}
 	FILE * f = popen("unzip -p tmp.odt meta.xml", "r");
 	if (!f) {
-	    cerr << program << ": popen() failed (" << strerror(errno) << ")" << endl;
+	    cerr << program << ": popen() failed (" << strerror(errno) << ")\n";
 	    _Exit(1);
 	}
 
 	FILE * out = fopen("meta.xml", "w");
 	if (!out) {
-	    cerr << program << ": fopen() failed (" << strerror(errno) << ")" << endl;
+	    cerr << program << ": fopen() failed (" << strerror(errno) << ")\n";
 	    _Exit(1);
 	}
 
@@ -196,24 +196,24 @@ next:;
 	}
 
 	if (fclose(out) < 0) {
-	    cerr << program << ": fclose() failed (" << strerror(errno) << ")" << endl;
+	    cerr << program << ": fclose() failed (" << strerror(errno) << ")\n";
 	    _Exit(1);
 	}
 
 	if (pclose(f) < 0) {
-	    cerr << program << ": pclose() failed (" << strerror(errno) << ")" << endl;
+	    cerr << program << ": pclose() failed (" << strerror(errno) << ")\n";
 	    _Exit(1);
 	}
 
 	int r = system("zip tmp.odt meta.xml");
 	unlink("meta.xml");
 	if (!WIFEXITED(r) || WEXITSTATUS(r) != 0) {
-	    cerr << program << ": failed to run zip command" << endl;
+	    cerr << program << ": failed to run zip command\n";
 	    _Exit(1);
 	}
 
 	if (fchdir(cwd_fd) < 0) {
-	    cerr << program << ": fchdir() failed (" << strerror(errno) << ")" << endl;
+	    cerr << program << ": fchdir() failed (" << strerror(errno) << ")\n";
 	    _Exit(1);
 	}
 	rc = convert(handle, false, odt.c_str(), output);
