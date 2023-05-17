@@ -9,7 +9,7 @@ AC_CONFIG_SRCDIR([lloconv.cc])
 AC_PROG_CXX
 
 dnl Enable extra warning flags for building with GCC.
-if test yes = "$GCC"; then
+if test yes = "$GXX"; then
   AM_CXXFLAGS="$AM_CXXFLAGS -Wall -W -Wshadow -Wpointer-arith -Wcast-align"
 fi
 AC_SUBST([AM_CXXFLAGS])
